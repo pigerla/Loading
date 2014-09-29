@@ -1,4 +1,4 @@
 Loading
 =======
 
-Loading , for alerting people to wait
+Loading , for alerting people to wait.
