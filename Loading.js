@@ -10,13 +10,15 @@
 
     // Create global element reference
     this.loading = null;
+    this.overlay = null;
 
     // Define option defaults
     var defaults = {
-      className: 'fade-in',
+      className: '',
       content: '',
       maxWidth: 50,
-      maxHeight: 50
+      minWidth: 50,
+      overlay: true
     };
 
     // Create options by extending defaults with the passed in arguments
@@ -37,6 +39,7 @@
     initializeEvents.call(this);
 
     this.loading.className = this.loading.className + ' loading-show';
+    this.overlay.className = this.overlay.className + " loading-show";
 
   };
 
@@ -54,22 +57,9 @@
 //    this.loading.addEventListener(this.transitionEnd, function() {
     _.loading.parentNode.removeChild(_.loading);
 //    });
+    _.overlay.parentNode.removeChild(_.overlay);
 
   };
-
-
-
-  // Utility method to extend defaults with user options
-  function extendDefaults (source, properties) {
-    var property;
-    for (property in properties) {
-      if ( source.hasOwnProperty( property ) ) {
-        source[property] = properties[property];
-      }
-    }
-    console.log('source:',source);
-    return source;
-  }
 
   // Building a Loading
   function buildOut () {
@@ -90,18 +80,20 @@
     // Create loading element
     this.loading = document.createElement('div');
     this.loading.className = 'Loading ' + this.options.className;
-    this.loading.style.maxWidth = this.options.maxWidth + 'px';
-    this.loading.style.maxHeight = this.options.maxHeight + 'px';
+//    this.loading.style.maxWidth = this.options.maxWidth + 'px';
+//    this.loading.style.minWidth = this.options.minWidth + 'px';
+
+    // If overlay is true, add one
+    if (this.options.overlay === true) {
+      this.overlay = document.createElement('div');
+      this.overlay.className = 'Loading-overlay ' + this.options.className;
+      docFrag.appendChild(this.overlay);
+    }
 
     // Create content area and append to loading
     contentHolder = document.createElement('div');
-    if (this.options.content) {
-      contentHolder.className = 'Loading-content';
-      contentHolder.innerHTML = content;
-    } else {
-      contentHolder.className =  'circle';
-      contentHolder.innerHTML = '';
-    }
+    contentHolder.className = 'Loading-content';
+    contentHolder.innerHTML = this.options.content === '' ? '<div class="circle">' : content;
     this.loading.appendChild(contentHolder);
 
     // Append loading to DocumentFragment
@@ -112,8 +104,24 @@
 
   }
 
+  // Utility method to extend defaults with user options
+  function extendDefaults (source, properties) {
+    var property;
+    for (property in properties) {
+      if ( source.hasOwnProperty( property ) ) {
+        source[property] = properties[property];
+      }
+    }
+    console.log('source:',source);
+    return source;
+  }
+
   function initializeEvents () {
-    this.loading.addEventListener('click', this.hide.bind(this));
+    if (this.overlay) {
+      this.overlay.addEventListener('click', this.hide.bind(this));
+    } else {
+      this.loading.addEventListener('click', this.hide.bind(this));
+    }
   }
 
 }());
