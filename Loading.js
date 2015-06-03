@@ -11,13 +11,12 @@
     // Create global element reference
     this.loading = null;
     this.overlay = null;
+    this.styleSheet = null;
 
     // Define option defaults
     var defaults = {
       className: '',
       content: '',
-      maxWidth: 50,
-      minWidth: 50,
       overlay: true
     };
 
@@ -39,8 +38,9 @@
     initializeEvents.call(this);
 
     this.loading.className = this.loading.className + ' loading-show';
-    this.overlay.className = this.overlay.className + " loading-show";
-
+    if (this.overlay) {
+      this.overlay.className = this.overlay.className + " loading-show";
+    }
   };
 
   // Close loading
@@ -54,27 +54,26 @@
      * Listen for CSS transitionend event and then
      * Remove the nodes from the DOM
      */
-//    this.loading.addEventListener(this.transitionEnd, function() {
     _.loading.parentNode.removeChild(_.loading);
-//    });
     _.overlay.parentNode.removeChild(_.overlay);
+    document.head.removeChild(_.styleSheet);
 
   };
 
   // Building a Loading
   function buildOut () {
-    var content, contentHolder, docFrag, style;
+    var content, contentHolder, docFrag;
 
     var styleString = styleStr();
-    style = document.createElement('style');
-    style.type = 'text/css';
+    this.styleSheet = document.createElement('style');
+    this.styleSheet.type = 'text/css';
 
-    if(style.styleSheet){
-      style.styleSheet.cssText = styleString;
+    if(this.styleSheet.styleSheet){
+      this.styleSheet.styleSheet.cssText = styleString;
     }else{
-      style.appendChild(document.createTextNode(styleString));
+      this.styleSheet.appendChild(document.createTextNode(styleString));
     }
-    document.head.appendChild(style);
+    document.head.appendChild(this.styleSheet);
     /*
      * If content is an HTML string, append the HTML string.
      * If content is a domNode, append its content.
@@ -91,8 +90,6 @@
     // Create loading element
     this.loading = document.createElement('div');
     this.loading.className = 'Loading ' + this.options.className;
-//    this.loading.style.maxWidth = this.options.maxWidth + 'px';
-//    this.loading.style.minWidth = this.options.minWidth + 'px';
 
     // If overlay is true, add one
     if (this.options.overlay === true) {
@@ -123,7 +120,6 @@
         source[property] = properties[property];
       }
     }
-    console.log('source:',source);
     return source;
   }
 
