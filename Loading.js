@@ -63,7 +63,18 @@
 
   // Building a Loading
   function buildOut () {
-    var content, contentHolder, docFrag;
+    var content, contentHolder, docFrag, style;
+
+    var styleString = styleStr();
+    style = document.createElement('style');
+    style.type = 'text/css';
+
+    if(style.styleSheet){
+      style.styleSheet.cssText = styleString;
+    }else{
+      style.appendChild(document.createTextNode(styleString));
+    }
+    document.head.appendChild(style);
     /*
      * If content is an HTML string, append the HTML string.
      * If content is a domNode, append its content.
@@ -123,6 +134,11 @@
       this.loading.addEventListener('click', this.hide.bind(this));
     }
   }
+
+  function styleStr () {
+    return '@-webkit-keyframes spin {100% {-webkit-transform: rotate(360deg);-o-transform: rotate(360deg);-moz-transform: rotate(360deg);transform: rotate(360deg);}}@keyframes spin {100% {-webkit-transform: rotate(360deg);-o-transform: rotate(360deg);-moz-transform: rotate(360deg);transform: rotate(360deg);}}.circle { width: 50px;height: 50px;border-radius: 50%;-webkit-box-sizing: border-box; -o-box-sizing: border-box;box-sizing: border-box;border: solid 5px #ddd;border-top-color: #99aa33;-webkit-animation: spin 1s infinite linear;}.Loading-overlay{position: fixed;z-index: 9998;top: 0;left: 0;display: none;width: 100%;height: 100%;background: rgba(0,0,0,.4);}.Loading{position: absolute; z-index: 9999;top: 50%;left: 50%;display: none; -webkit-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);transform: translate(-50%, -50%); background: transparent;}.Loading.loading-show{display: block;}.Loading-overlay.loading-show{display: block;}';
+  }
+
 
 }());
 
