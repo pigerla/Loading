@@ -6,16 +6,18 @@
     <!--<link rel="stylesheet" href="Loading.css"/>-->
 </head>
 <body>
-<!--<div id="content" class="fade-in">-->
-    <!--<div class="">Loading</div>-->
-<!--</div>-->
-<script src="Loading.js"></script>
+<div id="content" class="fade-in">
+    <div class="loading">Loading</div>
+</div>
+<script src="../Loading.js"></script>
 <script>
     var myContent = document.getElementById('content');
-    var Loading = new Loading({
+
+    var Loading = new Loading();
+//    var Loading = new Loading({
 //        content: myContent,
-        overlay : false
-    });
+//        overlay : false
+//    });
     Loading.show();
 </script>
 </body>
