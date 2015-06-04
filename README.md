@@ -29,7 +29,7 @@ Loading
 
     loading.show();
 
-### show()
+### hide()
 
 去掉加载时，可以调用`hide()`方法，代码如下：
 
