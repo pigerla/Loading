@@ -51,11 +51,12 @@
     // Remove the open class name
     this.loading.className = this.loading.className.replace(' loading-show', '');
     /*
-     * Listen for CSS transitionend event and then
      * Remove the nodes from the DOM
      */
     _.loading.parentNode.removeChild(_.loading);
-    _.overlay.parentNode.removeChild(_.overlay);
+    if (_.overlay) {
+      _.overlay.parentNode.removeChild(_.overlay);
+    }
     document.head.removeChild(_.styleSheet);
 
   };
@@ -74,6 +75,7 @@
       this.styleSheet.appendChild(document.createTextNode(styleString));
     }
     document.head.appendChild(this.styleSheet);
+
     /*
      * If content is an HTML string, append the HTML string.
      * If content is a domNode, append its content.
@@ -91,12 +93,14 @@
     this.loading = document.createElement('div');
     this.loading.className = 'Loading ' + this.options.className;
 
+    this.overlay = document.createElement('div');
     // If overlay is true, add one
     if (this.options.overlay === true) {
-      this.overlay = document.createElement('div');
       this.overlay.className = 'Loading-overlay ' + this.options.className;
-      docFrag.appendChild(this.overlay);
+    } else {
+      this.overlay.className = 'Loading-overlay opacity0 ' + this.options.className;
     }
+    docFrag.appendChild(this.overlay);
 
     // Create content area and append to loading
     contentHolder = document.createElement('div');
@@ -126,13 +130,11 @@
   function initializeEvents () {
     if (this.overlay) {
       this.overlay.addEventListener('click', this.hide.bind(this));
-    } else {
-      this.loading.addEventListener('click', this.hide.bind(this));
     }
   }
 
   function styleStr () {
-    return '@-webkit-keyframes spin {100% {-webkit-transform: rotate(360deg);-o-transform: rotate(360deg);-moz-transform: rotate(360deg);transform: rotate(360deg);}}@keyframes spin {100% {-webkit-transform: rotate(360deg);-o-transform: rotate(360deg);-moz-transform: rotate(360deg);transform: rotate(360deg);}}.circle { width: 50px;height: 50px;border-radius: 50%;-webkit-box-sizing: border-box; -o-box-sizing: border-box;box-sizing: border-box;border: solid 5px #ddd;border-top-color: #99aa33;-webkit-animation: spin 1s infinite linear;}.Loading-overlay{position: fixed;z-index: 9998;top: 0;left: 0;display: none;width: 100%;height: 100%;background: rgba(0,0,0,.4);}.Loading{position: absolute; z-index: 9999;top: 50%;left: 50%;display: none; -webkit-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);transform: translate(-50%, -50%); background: transparent;}.Loading.loading-show{display: block;}.Loading-overlay.loading-show{display: block;}';
+    return '@-webkit-keyframes spin{100%{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);-moz-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes spin{100%{-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);-moz-transform:rotate(360deg);transform:rotate(360deg)}}.circle{width:50px;height:50px;border-radius:50%;-webkit-box-sizing:border-box;-o-box-sizing:border-box;box-sizing:border-box;border:5px solid #ddd;border-top-color:#9a3;-webkit-animation:spin 1s infinite linear}.Loading-overlay{position:fixed;z-index:9998;top:0;left:0;display:none;width:100%;height:100%;background:rgba(0,0,0,.4)}.Loading{position:fixed;z-index:9999;top:50%;left:50%;display:none;-webkit-transform:translate(-50%,-50%);-moz-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);-o-transform:translate(-50%,-50%);transform:translate(-50%,-50%);background:0 0}.Loading-overlay.loading-show,.Loading.loading-show{display:block}.opacity0{opacity:0}';
   }
 
 
