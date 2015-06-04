@@ -3,7 +3,7 @@ Loading
 
 > 这个一个很轻量级的加载显示js插件，叫 **Loading** 。支持默认显示方式和自定义显示方式。
 
-# 如何使用?
+## 如何使用?
 
 下载本源码，将`Loading`引入页面，例外初始化`Loading`即可，如：
 
@@ -21,15 +21,15 @@ Loading
       overlay: true ｜ false                  // true为加覆盖层，false则为覆盖层完全透明
     };
 
-## 调用Loading的方法
+### 调用Loading的方法
 
-### show()
+#### show()
 
 显示加载中时，可以调用`show()`方法，代码如下：
 
     loading.show();
 
-### hide()
+#### hide()
 
 去掉加载时，可以调用`hide()`方法，代码如下：
 
