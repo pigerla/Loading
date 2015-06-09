@@ -52,7 +52,7 @@ Loading
 
 #### js
 
-    var loadingWrapper = document.querySelector('loadingWrapper');
+    var loadingWrapper = document.querySelector('#loadingWrapper');
 
     或者
 
