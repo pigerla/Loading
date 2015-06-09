@@ -34,3 +34,33 @@ Loading
 去掉加载时，可以调用`hide()`方法，代码如下：
 
     loading.hide();
+
+
+### 自定义Loading
+
+例如下面例子：
+
+#### html
+
+    <div id="loadingWrapper">
+        <div class="loading">这是一个loading</div>
+    </div>
+
+#### css
+
+    .loading { ... }
+
+#### js
+
+    var loadingWrapper = document.querySelector('loadingWrapper');
+
+    或者
+
+    var loadingWrapper = document.getElementById('loadingWrapper');
+
+    var Loading = new Loading({
+        content: loadingWrapper,
+        ...                 // other options
+    });
+
+
